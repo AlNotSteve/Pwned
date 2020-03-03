@@ -21,6 +21,8 @@ echo "                                  ";
  
 }
 
+export HIBPKEY=YOUR_API_KEY_HERE # Grab an API key from https://haveibeenpwned.com/API/Key
+
 main(){
 	clear
 header
@@ -30,17 +32,14 @@ clear
 header
 echo ""
 echo "Checking if you have been Pwned"
-curl -s -o breach.json "https://haveibeenpwned.com/api/v2/breachedaccount/$account"
-curl -s -o pasteacc.json "https://haveibeenpwned.com/api/v2/pasteaccount/$account"
-#curl -s -o pwnedpassword.json "https://haveibeenpwned.com/api/v2/pwnedpassword/"$account""
+curl -s -o breach.json "https://haveibeenpwned.com/api/v3/breachedaccount/$account" -H "hibp-api-key:$HIBPKEY"
+curl -s -o pasteacc.json "https://haveibeenpwned.com/api/v3/pasteaccount/$account" -H "hibp-api-key:$HIBPKEY"
 
 clear
 jq ".[]" breach.json > semibreach.json 
-jq .Title semibreach.json > breach.txt
+jq .Name semibreach.json > breach.txt
 jq ".[]" pasteacc.json > semipaste.json 
-jq .Title semipaste.json > pasteacc.txt
-#jq ".[]" pwnedpassword.json > semipwnedpassword.json 
-#jq .Title semipwnedpassword.json > pwnedpassword.txt
+jq .Name semipaste.json > pasteacc.txt
 header
 echo ""
 echo ""
@@ -56,3 +55,4 @@ declutter
 
 clear
 main
+
