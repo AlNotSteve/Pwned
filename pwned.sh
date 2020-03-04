@@ -21,19 +21,17 @@ echo "                                  ";
  
 }
 
-export HIBPKEY=YOUR_API_KEY_HERE # Grab an API key from https://haveibeenpwned.com/API/Key
-
 main(){
 	clear
 header
 echo "Enter your Email Address (For eg xyz@mail.com)"
-read account
-clear
-header
+read EMAIL
+echo "Enter HIBP API Key"
+read HIBPKEY
 echo ""
 echo "Checking if you have been Pwned"
-curl -s -o breach.json "https://haveibeenpwned.com/api/v3/breachedaccount/$account" -H "hibp-api-key:$HIBPKEY"
-curl -s -o pasteacc.json "https://haveibeenpwned.com/api/v3/pasteaccount/$account" -H "hibp-api-key:$HIBPKEY"
+curl -s -o breach.json "https://haveibeenpwned.com/api/v3/breachedaccount/$EMAIL" -H "hibp-api-key:$HIBPKEY"
+curl -s -o pasteacc.json "https://haveibeenpwned.com/api/v3/pasteaccount/$EMAIL" -H "hibp-api-key:$HIBPKEY"
 
 clear
 jq ".[]" breach.json > semibreach.json 
